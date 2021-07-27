@@ -25,9 +25,14 @@ const dir = splitedUrl.join("/")
 //const wasmModule = new WebAssembly.Module(Deno.readFileSync(wasmFile));
 //const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
 
+console.log(dir)
+console.log(`${dir}/wasm_test_bg.wasm`)
+
 const response = await fetch(`${dir}/wasm_test_bg.wasm`);
 const buffer = await response.arrayBuffer();
-const wasmInstance = await WebAssembly.instantiate(buffer);
+const wasmInstance = await WebAssembly.instantiate(buffer, imports);
+
+console.log(wasmInstance.exports)
 
 const wasm = wasmInstance.exports;
 
