@@ -1,18 +1,15 @@
-declare namespace wasm_bindgen {
-	/* tslint:disable */
-	/* eslint-disable */
-	/**
-	* @param {number} a
-	* @param {number} b
-	* @returns {number}
-	*/
-	export function myAdd(a: number, b: number): number;
-	
-}
+/* tslint:disable */
+/* eslint-disable */
+/**
+* @param {number} a
+* @param {number} b
+* @returns {number}
+*/
+export function myAdd(a: number, b: number): number;
 
-declare type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
+export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
-declare interface InitOutput {
+export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly myAdd: (a: number, b: number) => number;
 }
@@ -25,4 +22,4 @@ declare interface InitOutput {
 *
 * @returns {Promise<InitOutput>}
 */
-declare function wasm_bindgen (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
+export default function init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
