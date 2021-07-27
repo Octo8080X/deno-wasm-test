@@ -1,5 +1,4 @@
 
-let wasm;
 
 /**
 * @param {number} a
@@ -11,56 +10,25 @@ export function myAdd(a, b) {
     return ret;
 }
 
-async function load(module, imports) {
-    if (typeof Response === 'function' && module instanceof Response) {
-        if (typeof WebAssembly.instantiateStreaming === 'function') {
-            try {
-                return await WebAssembly.instantiateStreaming(module, imports);
+const imports = {
+    __wbindgen_placeholder__: {
+    },
 
-            } catch (e) {
-                if (module.headers.get('Content-Type') != 'application/wasm') {
-                    console.warn("`WebAssembly.instantiateStreaming` failed because your server does not serve wasm with `application/wasm` MIME type. Falling back to `WebAssembly.instantiate` which is slower. Original error:\n", e);
+};
 
-                } else {
-                    throw e;
-                }
-            }
-        }
+const file = new URL(import.meta.url).pathname;
+const wasmFile = file.substring(0, file.lastIndexOf(Deno.build.os === 'windows' ? '\\' : '/') + 1) + 'wasm_test_bg.wasm';
+console.log(wasmFile)
+//const wasmModule = new WebAssembly.Module(Deno.readFileSync(wasmFile));
+//const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
 
-        const bytes = await module.arrayBuffer();
-        return await WebAssembly.instantiate(bytes, imports);
+const response = await fetch(wasmFile);
+const buffer = await response.arrayBuffer();
+const wasmInstance = await WebAssembly.instantiate(buffer);
 
-    } else {
-        const instance = await WebAssembly.instantiate(module, imports);
+const wasm = wasmInstance.exports;
 
-        if (instance instanceof WebAssembly.Instance) {
-            return { instance, module };
-
-        } else {
-            return instance;
-        }
-    }
-}
-
-async function init(input) {
-    if (typeof input === 'undefined') {
-        input = new URL('wasm_test_bg.wasm', import.meta.url);
-    }
-    const imports = {};
-
-
-    if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
-        //input = fetch(input);
-        input = WebAssembly.compileStreaming(fetch(input))
-    }
-
-    const { instance, module } = await load( input, imports);
-
-    wasm = instance.exports;
-    init.__wbindgen_wasm_module = module;
-
-    return wasm;
-}
-
-export default init;
-
+//const response = await fetch("add.wasm");
+//const buffer = await response.arrayBuffer();
+//const obj = await WebAssembly.instantiate(buffer);
+//obj.instance.exports.exported_func();
