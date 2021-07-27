@@ -50,10 +50,9 @@ async function init(input) {
 
 
     if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
-        input = fetch(input);
+        //input = fetch(input);
+        input = WebAssembly.compileStreaming(fetch(input))
     }
-
-
 
     const { instance, module } = await load( input, imports);
 
