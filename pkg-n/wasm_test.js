@@ -16,10 +16,12 @@ const imports = {
 
 };
 
-const desc1 = { name: "net", path: "https://raw.githubusercontent.com" };
-const status1 = await Deno.permissions.request(desc1);
+const url = new URL(import.meta.url)
 
-const splitedUrl = import.meta.url.split("/")
+const persit = { name: "net", path: url.origin };
+await Deno.permissions.request(persit);
+
+const splitedUrl = url.href.split("/")
 splitedUrl.pop()
 const dir = splitedUrl.join("/")
 const response = await fetch(`${dir}/wasm_test_bg.wasm`);
