@@ -34,7 +34,7 @@ const wasmInstance = await WebAssembly.instantiate(buffer, imports);
 
 console.log(wasmInstance.exports)
 
-const wasm = wasmInstance.exports;
+const wasm = wasmInstance.instance.exports;
 
 //const response = await fetch("add.wasm");
 //const buffer = await response.arrayBuffer();
