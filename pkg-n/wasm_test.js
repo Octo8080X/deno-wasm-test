@@ -16,6 +16,9 @@ const imports = {
 
 };
 
+const desc1 = { name: "net", path: "https://raw.githubusercontent.com" };
+const status1 = await Deno.permissions.request(desc1);
+
 const splitedUrl = import.meta.url.split("/")
 splitedUrl.pop()
 const dir = splitedUrl.join("/")
