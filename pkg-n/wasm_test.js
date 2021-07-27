@@ -18,7 +18,7 @@ const imports = {
 
 const splitedUrl = import.meta.url.split("/")
 splitedUrl.pop()
-const dir = h1.join("/")
+const dir = splitedUrl.join("/")
 
 //const wasmFile = file.substring(0, file.lastIndexOf(Deno.build.os === 'windows' ? '\\' : '/') + 1) + 'wasm_test_bg.wasm';
 //console.log(wasmFile)
