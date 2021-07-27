@@ -16,13 +16,16 @@ const imports = {
 
 };
 
-const file = new URL(import.meta.url).pathname;
-const wasmFile = file.substring(0, file.lastIndexOf(Deno.build.os === 'windows' ? '\\' : '/') + 1) + 'wasm_test_bg.wasm';
-console.log(wasmFile)
+const splitedUrl = import.meta.url.split("/")
+splitedUrl.pop()
+const dir = h1.join("/")
+
+//const wasmFile = file.substring(0, file.lastIndexOf(Deno.build.os === 'windows' ? '\\' : '/') + 1) + 'wasm_test_bg.wasm';
+//console.log(wasmFile)
 //const wasmModule = new WebAssembly.Module(Deno.readFileSync(wasmFile));
 //const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
 
-const response = await fetch(wasmFile);
+const response = await fetch(`${dir}/wasm_test_bg.wasm`);
 const buffer = await response.arrayBuffer();
 const wasmInstance = await WebAssembly.instantiate(buffer);
 
