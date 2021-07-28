@@ -18,8 +18,8 @@ const imports = {
 
 const url = new URL(import.meta.url)
 
-const persit = { name: "net", host: url.host };
-await Deno.permissions.request(persit);
+const permit = { name: "net", host: url.host };
+await Deno.permissions.request(permit);
 
 const splitedUrl = url.href.split("/")
 splitedUrl.pop()
